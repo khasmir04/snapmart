@@ -16,7 +16,9 @@ const Main = (props: IMainProps) => (
       SetIsCartOpen={props.SetIsCartOpen}
       title="SnapMart - Your one stop shop for all your needs "
     />
-    <main className="mt-[85px] bg-gray-200 pb-10">{props.children}</main>
+    <main className="mt-[85px] min-h-[calc(100vh-85px)] bg-gray-200 pb-10">
+      {props.children}
+    </main>
     <Footer />
   </div>
 );

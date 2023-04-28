@@ -1,20 +1,3 @@
-// type Category =
-//   | 'groceries'
-//   | 'cloths'
-//   | 'lifestyle'
-//   | 'toys'
-//   | 'furniture'
-//   | 'gadgets'
-//   | 'automotive';
-// export interface Product {
-//   id: string;
-//   productName: string;
-//   description: string;
-//   unitPrice: number;
-//   imageUrl: string;
-//   category: Category;
-// }
-
 import type { Product } from '@/types/product';
 
 export const productsMock: Product[] = [
