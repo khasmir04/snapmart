@@ -7,16 +7,22 @@ export interface CartModalProps {
   onAdd: (value: string) => void;
   onRemove: (value: string) => void;
   onClear: () => void;
+  onCloseModal: () => void;
 }
 
 const CartModal = (props: CartModalProps): JSX.Element => {
-  const { data, onAdd, onRemove, onClear } = props;
+  const { data, onAdd, onRemove, onClear, onCloseModal } = props;
   return (
-    <div className="fixed right-0 h-[calc(100vh-85px)] min-w-[300px]">
+    <div className="fixed right-0 h-[calc(100vh-85px)] min-w-[400px]">
       <div className="flex h-full flex-col border bg-white ">
         <div className="border">
           <div className="p-3">
-            <p className="text-3xl">My Cart</p>
+            <div className="flex items-center justify-between">
+              <p className="text-3xl">My Cart</p>
+              <button type="button" onClick={onCloseModal}>
+                Close
+              </button>
+            </div>
             <button type="button" onClick={onClear}>
               Remove All Items
             </button>

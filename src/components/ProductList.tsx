@@ -17,9 +17,11 @@ const ProductList = (props: ProductListProps): JSX.Element => {
 
   return (
     <div className="p-3">
-      <p className="text-4xl">
-        {categoryId?.toString().toUpperCase().replace('-', ' ')}
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-4xl">
+          {categoryId?.toString().toUpperCase().replace('-', ' ')}
+        </p>
+      </div>
       <div>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categoryId === 'all-items'
