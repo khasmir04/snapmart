@@ -27,6 +27,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "next": "^13.3.1",
     "next-seo": "^6.0.0",
     "next-sitemap": "^4.0.7",
