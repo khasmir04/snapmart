@@ -16,10 +16,11 @@ const ProductList = (props: ProductListProps): JSX.Element => {
   const { categoryId } = router.query;
 
   return (
-    <div>
-      <h1>Product List</h1>
+    <div className="p-3">
+      <p className="text-4xl">
+        {categoryId?.toString().toUpperCase().replace('-', ' ')}
+      </p>
       <div>
-        <p>{categoryId}</p>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categoryId === 'all-items'
             ? data.map((product) => {

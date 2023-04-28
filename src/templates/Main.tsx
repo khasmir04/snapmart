@@ -6,17 +6,17 @@ import Header from '@/components/Header';
 type IMainProps = {
   meta: ReactNode;
   children: ReactNode;
-  triggerCart: Dispatch<SetStateAction<boolean>>;
+  SetIsCartOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const Main = (props: IMainProps) => (
   <div className="antialiased">
     {props.meta}
     <Header
-      triggerCart={props.triggerCart}
+      SetIsCartOpen={props.SetIsCartOpen}
       title="SnapMart - Your one stop shop for all your needs "
     />
-    <main className="bg-blue-100 pb-10">{props.children}</main>
+    <main className="mt-[85px] bg-gray-200 pb-10">{props.children}</main>
     <Footer />
   </div>
 );

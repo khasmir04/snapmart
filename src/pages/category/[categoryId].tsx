@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import CartModal from '@/components/modal/CartModal';
 import ProductList from '@/components/ProductList';
 import SideBar from '@/components/Sidebar';
 import { categories } from '@/data/categories';
+import type { Product } from '@/data/mockData';
 import { productsMock } from '@/data/mockData';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
@@ -13,6 +15,7 @@ const CategoryPage = (): JSX.Element => {
   const router = useRouter();
   const { categoryId } = router.query;
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
   const handleClick = (value: string) => {
     console.log(value);
@@ -26,12 +29,12 @@ const CategoryPage = (): JSX.Element => {
           description="E-commerce mockup website for SnapMart Interview"
         />
       }
-      triggerCart={() => setIsVisible(!isVisible)}
+      SetIsCartOpen={() => setIsVisible(!isVisible)}
     >
       <section className="mx-auto flex p-4 lg:container md:p-0">
         <SideBar categories={categories} />
         <ProductList data={productsMock} onClick={handleClick} />
-        {isVisible && <div>Cart</div>}
+        {isVisible && <CartModal data={cartItems} />}
       </section>
     </Main>
   );

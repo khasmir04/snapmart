@@ -11,7 +11,7 @@ const Index = () => {
           description="E-commerce mockup website for SnapMart Interview"
         />
       }
-      triggerCart={() => console.log('Cart')}
+      SetIsCartOpen={() => console.log('Cart')}
     >
       <div className="container mx-auto flex">
         <div>Content</div>
