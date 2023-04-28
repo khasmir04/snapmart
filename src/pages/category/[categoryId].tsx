@@ -53,15 +53,29 @@ const CategoryPage = (): JSX.Element => {
   };
 
   const handleOnAdd = (value: string) => {
-    // Adjust the cart items
-    console.log(value);
-    setCartItems([...cartItems]);
+    const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
+    if (foundCartItemIndex !== -1) {
+      const prevCartItems = [...cartItems];
+      prevCartItems[foundCartItemIndex]!.quantity += 1;
+      setCartItems(prevCartItems);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }
   };
 
   const handleOnRemove = (value: string) => {
     // Adjust the cart items
-    console.log(value);
-    setCartItems([...cartItems]);
+    const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
+    if (foundCartItemIndex !== -1) {
+      const prevCartItems = [...cartItems];
+      if (prevCartItems[foundCartItemIndex]!.quantity > 1) {
+        prevCartItems[foundCartItemIndex]!.quantity -= 1;
+        setCartItems(prevCartItems);
+      } else {
+        const filteredItems = prevCartItems.filter((item) => item.id !== value);
+        setCartItems(filteredItems);
+      }
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }
   };
 
   const handleClear = () => {
@@ -89,6 +103,7 @@ const CategoryPage = (): JSX.Element => {
             onAdd={handleOnAdd}
             onRemove={handleOnRemove}
             onClear={handleClear}
+            onCloseModal={() => setIsVisible(false)}
           />
         )}
       </section>

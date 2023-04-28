@@ -20,7 +20,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
       <div className="ml-4 flex flex-1 flex-col">
         <div>
           <div className="flex justify-between text-base font-medium text-gray-900">
-            <h3>
+            <h3 className="max-w-[150px] truncate">
               {/* TODO: Link to product page */}
               {data.productName}
             </h3>
