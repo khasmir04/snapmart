@@ -2,10 +2,12 @@ import type { Product } from '@/data/mockData';
 
 export interface CartModalProps {
   data: Product[];
+  onAdd: (value: string) => void;
+  onRemove: (value: string) => void;
 }
 
 const CartModal = (props: CartModalProps): JSX.Element => {
-  const { data } = props;
+  const { data, onAdd, onRemove } = props;
   return (
     <div className="fixed right-0 h-[calc(100vh-85px)] min-w-[300px]">
       <div className="flex h-full flex-col border bg-white ">
@@ -22,6 +24,13 @@ const CartModal = (props: CartModalProps): JSX.Element => {
                 return (
                   <div key={item.id}>
                     <div>{item.productName}</div>
+                    <div>{item.unitPrice}</div>
+                    <button onClick={() => onAdd(item.id)} type="button">
+                      +
+                    </button>
+                    <button onClick={() => onRemove(item.id)} type="button">
+                      -
+                    </button>
                   </div>
                 );
               })}

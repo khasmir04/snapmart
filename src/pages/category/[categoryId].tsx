@@ -21,6 +21,18 @@ const CategoryPage = (): JSX.Element => {
     console.log(value);
   };
 
+  const handleOnAdd = (value: string) => {
+    // Adjust the cart items
+    console.log(value);
+    setCartItems([...cartItems]);
+  };
+
+  const handleOnRemove = (value: string) => {
+    // Adjust the cart items
+    console.log(value);
+    setCartItems([...cartItems]);
+  };
+
   return (
     <Main
       meta={
@@ -34,7 +46,13 @@ const CategoryPage = (): JSX.Element => {
       <section className="mx-auto flex p-4 lg:container md:p-0">
         <SideBar categories={categories} />
         <ProductList data={productsMock} onClick={handleClick} />
-        {isVisible && <CartModal data={cartItems} />}
+        {isVisible && (
+          <CartModal
+            data={cartItems}
+            onAdd={handleOnAdd}
+            onRemove={handleOnRemove}
+          />
+        )}
       </section>
     </Main>
   );
