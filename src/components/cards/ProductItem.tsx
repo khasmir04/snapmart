@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import type { Product } from '@/data/mockData';
+import type { Product } from '@/types/product';
 
 import AddToCartButton from '../buttons/AddToCartButton';
 
