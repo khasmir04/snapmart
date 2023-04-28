@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import type { Product } from '@/data/mockData';
+import type { Product } from '@/types/product';
 
 import ProductItem from './cards/ProductItem';
 
