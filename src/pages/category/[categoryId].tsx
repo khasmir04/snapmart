@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import CartModal from '@/components/modal/CartModal';
 import ProductList from '@/components/ProductList';
@@ -16,8 +18,10 @@ const CategoryPage = (): JSX.Element => {
   const { categoryId } = router.query;
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<CartProduct[]>([]);
-  // TODO: Use State for products after fetching
+  const [isPurchaseModalVisible, setIsPurchaseModalVisible] =
+    useState<boolean>(false);
 
+  // TODO: Use State for products after fetching
   useEffect(() => {
     // Perform localStorage action
     const storageItems = localStorage.getItem('cartItems');
@@ -51,6 +55,38 @@ const CategoryPage = (): JSX.Element => {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   };
+
+  const MySwal = withReactContent(Swal);
+
+  useEffect(() => {
+    if (isPurchaseModalVisible) {
+      MySwal.fire({
+        title: 'Do you wish to proceed?',
+        text: 'Confirm Payment',
+        icon: 'question',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#0F477C',
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          MySwal.fire({
+            title: 'Payment Successful!',
+            text: 'Thank you for your purchase!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#0F477C',
+          }).then(() => {
+            setIsPurchaseModalVisible(false);
+            setCartItems([]);
+            localStorage.removeItem('cartItems');
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          setIsPurchaseModalVisible(false);
+        }
+      });
+    }
+  }, [isPurchaseModalVisible]);
 
   const handleOnAdd = (value: string) => {
     const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
@@ -104,8 +140,14 @@ const CategoryPage = (): JSX.Element => {
             onRemove={handleOnRemove}
             onClear={handleClear}
             onCloseModal={() => setIsVisible(false)}
+            setIsPurchaseModalVisible={() => setIsPurchaseModalVisible(true)}
           />
         )}
+        {/* {isPurchaseModalVisible && (
+          <PurchaseModal
+            setIsPurchaseModalVisible={setIsPurchaseModalVisible}
+          />
+        )} */}
       </section>
     </Main>
   );

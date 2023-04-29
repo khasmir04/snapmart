@@ -8,10 +8,18 @@ export interface CartModalProps {
   onRemove: (value: string) => void;
   onClear: () => void;
   onCloseModal: () => void;
+  setIsPurchaseModalVisible: () => void;
 }
 
 const CartModal = (props: CartModalProps): JSX.Element => {
-  const { data, onAdd, onRemove, onClear, onCloseModal } = props;
+  const {
+    data,
+    onAdd,
+    onRemove,
+    onClear,
+    onCloseModal,
+    setIsPurchaseModalVisible,
+  } = props;
   return (
     <div className="fixed right-0 h-[calc(100vh-85px)] min-w-[400px]">
       <div className="flex h-full flex-col border bg-white ">
@@ -64,7 +72,13 @@ const CartModal = (props: CartModalProps): JSX.Element => {
                 )
                 .toLocaleString()}
             </p>
-            <button type="button">Checkout</button>
+            <button
+              type="button"
+              onClick={setIsPurchaseModalVisible}
+              disabled={data.length < 1}
+            >
+              Checkout
+            </button>
           </div>
         </div>
       </div>
