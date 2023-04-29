@@ -45,7 +45,14 @@ const CartModal = (props: CartModalProps): JSX.Element => {
         </div>
         <div className="border">
           <div className="p-3">
-            <p className="text-xl">Total Items: {data?.length || 0}</p>
+            <p className="text-xl">
+              Total Items:{' '}
+              {data.reduce(
+                (accumulator, currentValue) =>
+                  accumulator + currentValue.quantity,
+                0
+              ) || 0}
+            </p>
             <p className="text-xl">
               Total Amount:{' '}
               {data

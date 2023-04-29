@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Product } from '@/types/product';
 
 import ProductItem from './cards/ProductItem';
+import SortDropdown from './dropdowns/SortDropdown';
 
 export interface ProductListProps {
   data: Product[];
@@ -27,6 +28,38 @@ const ProductList = (props: ProductListProps): JSX.Element => {
     setFilteredData(filtered);
   };
 
+  const handleSelectChange = (value: string) => {
+    switch (value) {
+      case 'price-asc':
+        setFilteredData(
+          [...filteredData].sort((a, b) => a.unitPrice - b.unitPrice)
+        );
+        break;
+      case 'price-desc':
+        setFilteredData(
+          [...filteredData].sort((a, b) => b.unitPrice - a.unitPrice)
+        );
+        break;
+      case 'name-asc':
+        setFilteredData(
+          [...filteredData].sort((a, b) =>
+            a.productName.localeCompare(b.productName)
+          )
+        );
+        break;
+      case 'name-desc':
+        setFilteredData(
+          [...filteredData].sort((a, b) =>
+            b.productName.localeCompare(a.productName)
+          )
+        );
+        break;
+      default:
+        setFilteredData([...data]);
+        break;
+    }
+  };
+
   useEffect(() => {
     const handleRouteChange = () => {
       if (searchInputRef.current) {
@@ -48,12 +81,13 @@ const ProductList = (props: ProductListProps): JSX.Element => {
         <p className="text-4xl">
           {categoryId?.toString().toUpperCase().replace('-', ' ')}
         </p>
-        <div>
+        <div className="flex items-center gap-2">
+          <SortDropdown onChange={handleSelectChange} />
           <input
             type="text"
             name="search"
             id="search"
-            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 p-2 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder="Search product..."
             ref={searchInputRef}
             onChange={handleSearch}

@@ -11,7 +11,7 @@ const Index = () => {
           description="E-commerce mockup website for SnapMart Interview"
         />
       }
-      SetIsCartOpen={() => console.log('Cart')}
+      setIsCartOpen={() => {}}
     >
       <div className="container mx-auto flex">
         <div>Content</div>
