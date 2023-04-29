@@ -9,18 +9,21 @@ type IMainProps = {
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const Main = (props: IMainProps) => (
-  <div className="antialiased">
-    {props.meta}
-    <Header
-      SetIsCartOpen={props.setIsCartOpen}
-      title="SnapMart - Your one stop shop for all your needs "
-    />
-    <main className="mt-[85px] min-h-[calc(100vh-85px)] bg-gray-200 pb-10">
-      {props.children}
-    </main>
-    <Footer />
-  </div>
-);
+const Main = (props: IMainProps) => {
+
+  return (
+    <div className="antialiased">
+      {props.meta}
+      <Header
+        SetIsCartOpen={props.setIsCartOpen}
+        title="SnapMart"
+      />
+      <main className="mt-[85px] min-h-[calc(100vh-85px)] bg-gray-200 pb-10">
+        {props.children}
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 export { Main };
