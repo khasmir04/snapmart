@@ -23,7 +23,6 @@ const CategoryPage = (): JSX.Element => {
 
   // TODO: Use State for products after fetching
   useEffect(() => {
-    // Perform localStorage action
     const storageItems = localStorage.getItem('cartItems');
     if (storageItems) {
       setCartItems(JSON.parse(storageItems));
@@ -31,15 +30,11 @@ const CategoryPage = (): JSX.Element => {
   }, []);
 
   const handleClick = (value: string) => {
-    // Adjust the cart items
-    // Search from the productsMock
     const foundItem = productsMock.find((product) => product.id === value);
 
-    // Search from the cartItems
     if (foundItem) {
       const foundCartItem = cartItems.find((item) => item.id === value);
       if (foundCartItem) {
-        // Update the quantity
         const filteredItems = cartItems.filter(
           (item) => item.id !== foundCartItem.id
         );
@@ -48,10 +43,8 @@ const CategoryPage = (): JSX.Element => {
           ...filteredItems,
         ]);
       } else {
-        // Add the item
         setCartItems([{ ...foundItem, quantity: 1 }, ...cartItems]);
       }
-      // Update the localStorage
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   };
@@ -124,7 +117,6 @@ const CategoryPage = (): JSX.Element => {
   };
 
   const handleOnRemove = (value: string) => {
-    // Adjust the cart items
     const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
     if (foundCartItemIndex !== -1) {
       const prevCartItems = [...cartItems];
@@ -140,7 +132,6 @@ const CategoryPage = (): JSX.Element => {
   };
 
   const handleClear = () => {
-    // Adjust the cart items
     setCartItems([]);
     localStorage.removeItem('cartItems');
   };
