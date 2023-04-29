@@ -76,7 +76,7 @@ const CartModal = (props: CartModalProps): JSX.Element => {
               ) || 0}
             </p>
             <p className="text-xl">
-              Total Amount:{' '}
+              Total Amount:&nbsp;&#8369;&nbsp;
               {data
                 .reduce(
                   (accumulator, currentValue) =>

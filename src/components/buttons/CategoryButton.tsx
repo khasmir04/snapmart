@@ -13,8 +13,8 @@ const CategoryButton = (props: CategoryButtonProps): JSX.Element => {
   return (
     <Link
       href={url}
-      className={classNames('w-full block p-2', {
-        'bg-blue-500 font-bold text-white': isActive,
+      className={classNames('w-full block p-2 hover:bg-green-300', {
+        'bg-green-500 font-bold text-white hover:bg-green-500': isActive,
       })}
     >
       {title}
