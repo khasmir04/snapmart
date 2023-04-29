@@ -34,7 +34,7 @@ const CommonButton = (props: CommonButtonProps): JSX.Element => {
         <button
           {...rest}
           type="button"
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700  disabled:cursor-not-allowed disabled:bg-gray-500 disabled:opacity-50 disabled:hover:bg-gray-500"
+          className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700  disabled:cursor-not-allowed disabled:bg-gray-500 disabled:opacity-50 disabled:hover:bg-gray-500"
         >
           {title}
         </button>

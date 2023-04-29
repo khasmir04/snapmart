@@ -64,10 +64,34 @@ const CategoryPage = (): JSX.Element => {
         title: 'Do you wish to proceed?',
         text: 'Confirm Payment',
         icon: 'question',
+        html: `
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold">Total Amount:</span>
+              <span class="font-semibold text-red-500">
+              &#8369;
+                ${cartItems
+                  .reduce(
+                    (acc, item) => acc + item.unitPrice * item.quantity,
+                    0
+                  )
+                  .toLocaleString()}
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-semibold">Total Items:</span>
+              <span class="font-semibold text-red-500">
+                ${cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            </div>
+          </div>
+
+        `,
         confirmButtonText: 'OK',
-        confirmButtonColor: '#0F477C',
+        confirmButtonColor: '#80af46',
         showCancelButton: true,
         cancelButtonText: 'Cancel',
+        allowOutsideClick: false,
       }).then((result) => {
         if (result.isConfirmed) {
           MySwal.fire({
@@ -75,7 +99,8 @@ const CategoryPage = (): JSX.Element => {
             text: 'Thank you for your purchase!',
             icon: 'success',
             confirmButtonText: 'OK',
-            confirmButtonColor: '#0F477C',
+            confirmButtonColor: '#80af46',
+            allowOutsideClick: false,
           }).then(() => {
             setIsPurchaseModalVisible(false);
             setCartItems([]);
@@ -129,6 +154,7 @@ const CategoryPage = (): JSX.Element => {
         />
       }
       setIsCartOpen={() => setIsVisible(!isVisible)}
+      hasCart
     >
       <section className="mx-auto flex p-4 lg:container md:p-0">
         <SideBar categories={categories} />

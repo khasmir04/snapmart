@@ -2,15 +2,12 @@ import Image from 'next/image';
 
 import type { Product } from '@/types/product';
 
-import AddToCartButton from '../buttons/AddToCartButton';
-
-export interface ProductItemProps {
+export interface FeaturedItemProps {
   data: Product;
-  onClick: (value: string) => void;
 }
 
-const ProductItem = (props: ProductItemProps): JSX.Element => {
-  const { data, onClick } = props;
+const FeaturedItem = (props: FeaturedItemProps): JSX.Element => {
+  const { data } = props;
 
   return (
     <div className="flex">
@@ -39,11 +36,6 @@ const ProductItem = (props: ProductItemProps): JSX.Element => {
             <p className="mb-2 text-lg text-red-600">
               &#x20b1; {data.unitPrice.toLocaleString()}
             </p>
-            <AddToCartButton
-              id={data.id}
-              onClick={onClick}
-              title="Add To Cart"
-            />
           </div>
         </div>
       </div>
@@ -51,4 +43,4 @@ const ProductItem = (props: ProductItemProps): JSX.Element => {
   );
 };
 
-export default ProductItem;
+export default FeaturedItem;
