@@ -42,14 +42,14 @@ const Index = () => {
     >
       <div className="container mx-auto max-w-[60%] py-3">
         <div className="my-8">
-          <Link href="/category/all-items">
-            <div className="flex items-center">
+          <div className="flex items-center">
+            <Link href="/category/all-items">
               <div className="flex items-center gap-3 rounded-lg border bg-green-500 p-4 text-2xl text-white shadow-lg hover:bg-green-300 hover:shadow-xl">
                 Browse our products
                 <AiOutlineArrowRight />
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
         </div>
         <div>
           <h1 className="mb-3 text-2xl font-bold">Featured Products</h1>
