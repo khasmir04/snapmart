@@ -92,7 +92,7 @@ const CategoryPage = (): JSX.Element => {
           description="E-commerce mockup website for SnapMart Interview"
         />
       }
-      SetIsCartOpen={() => setIsVisible(!isVisible)}
+      setIsCartOpen={() => setIsVisible(!isVisible)}
     >
       <section className="mx-auto flex p-4 lg:container md:p-0">
         <SideBar categories={categories} />

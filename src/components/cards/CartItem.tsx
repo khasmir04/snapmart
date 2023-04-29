@@ -28,7 +28,7 @@ const CartItem = (props: CartItemProps): JSX.Element => {
               {(data.unitPrice * data.quantity).toLocaleString()}
             </p>
           </div>
-          <p className="mt-1 text-sm text-gray-500">{data.category}</p>
+          <p className="mt-1 text-sm text-gray-500">{data.unitPrice}</p>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
           <p className="text-gray-500">Qty {data.quantity.toLocaleString()}</p>
