@@ -22,5 +22,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "prettier.ignorePath": ".gitignore",
-  "cSpell.words": ["Snapmart", "tailwindcss"] // Don't run prettier for files listed in .gitignore
+  "cSpell.words": ["Snapmart", "Swal", "sweetalert", "tailwindcss"] // Don't run prettier for files listed in .gitignore
 }
