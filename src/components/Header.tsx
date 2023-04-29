@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 export interface HeaderProps {
   title: string;
@@ -14,8 +15,12 @@ const Header = (props: HeaderProps): JSX.Element => {
         <div className="flex items-center justify-between">
           <div>{title}</div>
           <div>
-            <button type="button" onClick={() => SetIsCartOpen(true)}>
-              Cart
+            <button
+              type="button"
+              onClick={() => SetIsCartOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <AiOutlineShoppingCart /> <span>Cart</span>
             </button>
           </div>
         </div>
