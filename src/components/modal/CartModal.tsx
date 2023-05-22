@@ -7,6 +7,8 @@ import CartItem from '../cards/CartItem';
 
 export interface CartModalProps {
   data: CartProduct[];
+  totalQuantity: number;
+  totalAmount: number;
   onAdd: (value: string) => void;
   onRemove: (value: string) => void;
   onClear: () => void;
@@ -22,6 +24,8 @@ const CartModal = (props: CartModalProps): JSX.Element => {
     onClear,
     onCloseModal,
     setIsPurchaseModalVisible,
+    totalQuantity,
+    totalAmount,
   } = props;
   return (
     <div className="fixed right-0 h-[calc(100vh-85px)] w-full bg-black/50">
@@ -68,23 +72,11 @@ const CartModal = (props: CartModalProps): JSX.Element => {
         <div className="border">
           <div className="p-3">
             <p className="text-xl">
-              Total Items:{' '}
-              {data.reduce(
-                (accumulator, currentValue) =>
-                  accumulator + currentValue.quantity,
-                0
-              ) || 0}
+              Total Items: {totalQuantity.toLocaleString()}
             </p>
             <p className="text-xl">
               Total Amount:&nbsp;&#8369;&nbsp;
-              {data
-                .reduce(
-                  (accumulator, currentValue) =>
-                    accumulator +
-                    currentValue.unitPrice * currentValue.quantity,
-                  0
-                )
-                .toLocaleString()}
+              {totalAmount.toLocaleString()}
             </p>
             <CommonButton
               variant="success"
