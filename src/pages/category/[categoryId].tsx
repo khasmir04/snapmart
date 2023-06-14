@@ -8,45 +8,78 @@ import ProductList from '@/components/ProductList';
 import SideBar from '@/components/Sidebar';
 import { categories } from '@/data/categories';
 import { productsMock } from '@/data/mockData';
+import {
+  addToCart,
+  calculateTotal,
+  clearCart,
+  removeFromCart,
+  setCart,
+} from '@/features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
-import type { CartProduct } from '@/types/product';
 import { AppConfig } from '@/utils/AppConfig';
 
 const CategoryPage = (): JSX.Element => {
   const router = useRouter();
   const { categoryId } = router.query;
+
+  const { cartItems, totalAmount, totalQuantity } = useAppSelector(
+    (store) => store.cart
+  );
+  const dispatch = useAppDispatch();
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<CartProduct[]>([]);
   const [isPurchaseModalVisible, setIsPurchaseModalVisible] =
     useState<boolean>(false);
 
   // TODO: Use State for products after fetching
+  // TODO: Checking of index should be handled by state
   useEffect(() => {
     const storageItems = localStorage.getItem('cartItems');
-    if (storageItems) {
-      setCartItems(JSON.parse(storageItems));
+    if (storageItems && storageItems.length > 0) {
+      dispatch(setCart(JSON.parse(storageItems)));
     }
   }, []);
 
-  const handleClick = (value: string) => {
-    const foundItem = productsMock.find((product) => product.id === value);
-
-    if (foundItem) {
-      const foundCartItem = cartItems.find((item) => item.id === value);
-      if (foundCartItem) {
-        const filteredItems = cartItems.filter(
-          (item) => item.id !== foundCartItem.id
-        );
-        setCartItems([
-          { ...foundCartItem, quantity: (foundCartItem.quantity += 1) },
-          ...filteredItems,
-        ]);
-      } else {
-        setCartItems([{ ...foundItem, quantity: 1 }, ...cartItems]);
-      }
+  useEffect(() => {
+    if (cartItems.length > 0) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
+    if (cartItems.length === 0) {
+      localStorage.removeItem('cartItems');
+    }
+    dispatch(calculateTotal());
+  }, [cartItems]);
+
+  const handleClick = (value: string) => {
+    const foundItem = productsMock.find((product) => product.id === value);
+    if (foundItem) {
+      dispatch(addToCart({ product: foundItem, quantity: 1 }));
+    }
+  };
+
+  const handleOnAdd = (value: string) => {
+    const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
+    if (foundCartItemIndex !== -1) {
+      const prevCartItems = [...cartItems];
+      dispatch(
+        addToCart({ product: prevCartItems[foundCartItemIndex], quantity: 1 })
+      );
+    }
+  };
+
+  const handleOnRemove = (value: string) => {
+    const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
+    if (foundCartItemIndex !== -1) {
+      const prevCartItems = [...cartItems];
+      dispatch(removeFromCart({ product: prevCartItems[foundCartItemIndex] }));
+    }
+  };
+
+  const handleClear = () => {
+    dispatch(clearCart());
+    localStorage.removeItem('cartItems');
   };
 
   const MySwal = withReactContent(Swal);
@@ -58,28 +91,22 @@ const CategoryPage = (): JSX.Element => {
         text: 'Confirm Payment',
         icon: 'question',
         html: `
-          <div class="flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <span class="font-semibold">Total Amount:</span>
-              <span class="font-semibold text-red-500">
-              &#8369;
-                ${cartItems
-                  .reduce(
-                    (acc, item) => acc + item.unitPrice * item.quantity,
-                    0
-                  )
-                  .toLocaleString()}
-              </span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="font-semibold">Total Items:</span>
-              <span class="font-semibold text-red-500">
-                ${cartItems.reduce((acc, item) => acc + item.quantity, 0)}
-              </span>
-            </div>
-          </div>
-
-        `,
+                <div class="flex flex-col gap-2">
+                  <div class="flex items-center gap-2">
+                    <span class="font-semibold">Total Amount:</span>
+                    <span class="font-semibold text-red-500">
+                    &#8369;
+                      ${totalAmount.toLocaleString()}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-semibold">Total Items:</span>
+                    <span class="font-semibold text-red-500">
+                      ${totalQuantity.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              `,
         confirmButtonText: 'OK',
         confirmButtonColor: '#80af46',
         showCancelButton: true,
@@ -96,8 +123,7 @@ const CategoryPage = (): JSX.Element => {
             allowOutsideClick: false,
           }).then(() => {
             setIsPurchaseModalVisible(false);
-            setCartItems([]);
-            localStorage.removeItem('cartItems');
+            handleClear();
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           setIsPurchaseModalVisible(false);
@@ -105,36 +131,6 @@ const CategoryPage = (): JSX.Element => {
       });
     }
   }, [isPurchaseModalVisible]);
-
-  const handleOnAdd = (value: string) => {
-    const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
-    if (foundCartItemIndex !== -1) {
-      const prevCartItems = [...cartItems];
-      prevCartItems[foundCartItemIndex]!.quantity += 1;
-      setCartItems(prevCartItems);
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
-  };
-
-  const handleOnRemove = (value: string) => {
-    const foundCartItemIndex = cartItems.findIndex((item) => item.id === value);
-    if (foundCartItemIndex !== -1) {
-      const prevCartItems = [...cartItems];
-      if (prevCartItems[foundCartItemIndex]!.quantity > 1) {
-        prevCartItems[foundCartItemIndex]!.quantity -= 1;
-        setCartItems(prevCartItems);
-      } else {
-        const filteredItems = prevCartItems.filter((item) => item.id !== value);
-        setCartItems(filteredItems);
-      }
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    }
-  };
-
-  const handleClear = () => {
-    setCartItems([]);
-    localStorage.removeItem('cartItems');
-  };
 
   return (
     <Main
@@ -146,6 +142,7 @@ const CategoryPage = (): JSX.Element => {
       }
       setIsCartOpen={() => setIsVisible(!isVisible)}
       hasCart
+      totalQuantity={totalQuantity}
     >
       <section className="mx-auto flex p-4 lg:container md:p-0">
         <SideBar categories={categories} />
@@ -158,6 +155,8 @@ const CategoryPage = (): JSX.Element => {
             onClear={handleClear}
             onCloseModal={() => setIsVisible(false)}
             setIsPurchaseModalVisible={() => setIsPurchaseModalVisible(true)}
+            totalAmount={totalAmount}
+            totalQuantity={totalQuantity}
           />
         )}
         {/* {isPurchaseModalVisible && (

@@ -3,6 +3,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 
 import FeaturedItem from '@/components/cards/FeaturedItem';
 import { productsMock } from '@/data/mockData';
+import { useAppSelector } from '@/hooks';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 import type { Product } from '@/types/product';
@@ -10,6 +11,7 @@ import { AppConfig } from '@/utils/AppConfig';
 
 const Index = () => {
   const data = productsMock;
+  const { totalQuantity } = useAppSelector((store) => store.cart);
 
   const getFirstFour = (products: Product[], type: string) => {
     return products.filter((item) => item.category === type).slice(0, 4);
@@ -39,6 +41,7 @@ const Index = () => {
       }
       setIsCartOpen={() => {}}
       hasCart={false}
+      totalQuantity={totalQuantity}
     >
       <div className="container mx-auto max-w-[60%] py-3">
         <div className="my-8">
